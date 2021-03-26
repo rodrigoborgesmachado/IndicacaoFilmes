@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+		<script type="text/javascript" src="javascript/jquery.js"></script>
+		<link rel="icon" type="../image/png" sizes="25x17" href="images/logo16x16.png">
+		<link rel="manifest" href="/manifest.json">
+        <title>Indicação de Filmes</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="javascript/scriptpagina.js"></script>
+		<script type="text/javascript" src="javascript/jquery.maskedinput.js"></script>
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/style.css" type="text/css">
+    </head>
+    <body id="home" data-spy="scroll" data-target=".navbar" data-offset="60">
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title" id="tituloModal"></h4>
+                    </div>
+                    <div class="modal-body" id="textoModal">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modalCadastroFilme" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Cadastro de Filmes</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                Filme:<br>
+                                <input class="form-control" id="nomeFilme" name="nomeFilme" placeholder="Nome do Filme" type="text" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                Tipo:<br>
+                                <div class="row">
+                                    <div class="col-sm-12" id = 'tipofilme'>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                Seu nome:<br>
+                                <input class="form-control" id="nome" name="nome" placeholder="Nome" type="text" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <button style="text-align: left;" class="buttonInicio" onclick="incluirFilme()">Incluir</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="jumbotron">	
+			<div class="interna" style="background-color: #dddddd;" align="justify">
+                <div id="contact" class="container-fluid bg-grey">
+                    <div class="row">
+                        <div class="row">
+        					<div class="col-sm-12">
+				        		<h2 style="text-align: center;">
+                                    Lista de indicação de filmes 
+                                </h2>
+                                <hr>
+                                <br>					
+        					</div>
+                        </div>
+                    </div>
+                    <div class="row" id="espacoLista">
+                        <div class="col-sm-12" id="classificacaoTexto">
+
+                        </div>
+                    </div>
+			    </div>
+            </div>
+		</div>
+    </body>
+</html>
+
+<script>
+    document.getElementById('espacoLista').hidden = false;
+    
+    function PreencheClassificao(){
+        document.getElementById('espacoLista').hidden = false;
+
+        var listaClassificacao = BuscaLista();
+        var texto = '';
+
+        texto += '  <table class="table table-striped">';
+        texto += '    <thead>';
+        texto += '      <tr>';
+        texto += '        <th style="display:none"><h4 style="text-align: center">Código</h4></th>';
+        texto += '        <th><h4 style="text-align: center;">Nome</h4></th>';
+        texto += '        <th><h4 style="text-align: center;">Tipo</h4></th>';
+        texto += '        <th><h4 style="text-align: center;">Indicação</h4></th>';
+        texto += '        <th><h4 style="text-align: center;">Qt. Indicações</h4></th>';
+        texto += '        <th><h4 style="text-align: center;"></h4></th>';
+        texto += '      </tr>';
+        texto += '    </thead>';
+        texto += '    <tbody>';
+
+        for(i = 0; i < listaClassificacao.length; i++){
+            texto += '      <tr>';
+            texto += '        <td style="display:none">';
+            texto += '          <h4 style="text-align: center;">' + listaClassificacao[i].CHAVE + '</h4>';
+            texto += '        </td>';
+            texto += '        <td>';
+            texto += '          <h4 style="text-align: center;">' + listaClassificacao[i].NOME + '</h4>';
+            texto += '        </td>';
+            texto += '        <td>';
+            texto += '          <h4 style="text-align: center;">' + listaClassificacao[i].TIPO + '</h4>';
+            texto += '        </td>';
+            texto += '        <td>';
+            texto += '          <h4 style="text-align: center;">' + listaClassificacao[i].INDICACAO + '</h4>';
+            texto += '        </td>';
+            texto += '        <td>';
+            texto += '          <h4 style="text-align: center;" id="quantidade' + listaClassificacao[i].CHAVE + '">' + listaClassificacao[i].QUANTIDADEVOTOS + '</h4>';
+            texto += '        </td>';
+            texto += '        <td>';
+            texto += '          <h4 style="text-align: center;">';
+            texto += '          <button style="text-align: center;" class="buttonVotar" onclick="Like(' + listaClassificacao[i].CHAVE + ');"><span class="glyphicon glyphicon-plus" style="color:black"></span></button>';
+            texto += '          <button style="text-align: center;" class="buttonVotar" onclick="Deslike(' + listaClassificacao[i].CHAVE + ');"><span class="glyphicon glyphicon-minus" style="color:black"></span></button>';
+            texto += '          </h4>';
+            texto += '        </td>';
+            texto += '      </tr>';
+        }
+        texto += '    </tbody>';
+        texto += '  </table>';
+
+        document.getElementById('classificacaoTexto').innerHTML += texto +
+                           `<h4 style="text-align: center;">
+                                <button class="buttonInicio" onclick="AbrirModalCadastroFilme();">Adicionar Filme</button>
+                            </h4>`;
+    }
+
+    function AbrirModalCadastroFilme(){
+        $("#modalCadastroFilme").modal();
+    }
+
+    function alerta(mensagem){
+        AbrirModal("Alerta", mensagem);
+    }
+
+    function AbrirModal(tituloModal, textoModal){
+        var titulo = document.querySelector('#tituloModal');
+        var texto = document.querySelector('#textoModal');
+
+        titulo.innerHTML = '';
+        titulo.innerHTML = tituloModal;
+        texto.innerHTML = '';
+        texto.innerHTML = '<p>' + textoModal + '</p>';
+        
+        $("#myModal").modal();
+    }
+
+    function incluirFilme(){
+        EnviaDadosFilme(document.getElementById('nomeFilme').value, document.getElementById('selectTipo').value, document.getElementById('nome').value);
+        alert("Incluído com sucesso!");
+        document.location.reload();
+    }
+
+    function PreencheFilme(){
+        var listaTipos = BuscaTiposFilmes();
+        document.getElementById('tipofilme').innerHTML = '';
+
+        var texto = `<select class="form-select form-select-sm" aria-label="Default select example" id='selectTipo'>`;
+        for(i = 0; i < listaTipos.length; i++){
+            console.log(listaTipos.DESCRICAO);
+            texto+=`<option value="`+ listaTipos[i].CHAVE + (i == 0 ? `" selected>` : '">') + listaTipos[i].DESCRICAO + `</option>`;
+        }
+        texto+='</select>';
+
+        document.getElementById('tipofilme').innerHTML += texto;
+    }
+
+    function Like(chave){
+        console.log(chave);
+        VotaLike(chave);
+        document.getElementById('quantidade' + chave).textContent = parseInt(document.getElementById('quantidade' + chave).textContent) + 1;
+    }
+
+    function Deslike(chave){
+        console.log(chave);
+        VotaDesLike(chave);
+        document.getElementById('quantidade' + chave).textContent = parseInt(document.getElementById('quantidade' + chave).textContent) - 1;
+    }
+
+    PreencheClassificao();
+    PreencheFilme();
+</script>
